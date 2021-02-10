@@ -100,15 +100,7 @@ int32_t	Interlocked::cas (int32_t volatile &dest, int32_t excg, int32_t comp)
 		::LONG (comp)
 	));
 
-#elif defined (__APPLE__)
-
-	return (::OSAtomicCompareAndSwap32Barrier (
-		comp,
-		excg,
-		const_cast <int32_t *> (reinterpret_cast <int32_t volatile *> (&dest))
-	) ? comp : excg);
-
-#elif defined (__GNUC__)
+#elif defined (__GNUC__) || defined (__APPLE__)
 
 	return (__sync_val_compare_and_swap (&dest, comp, excg));
 
@@ -214,15 +206,7 @@ int64_t	Interlocked::cas (int64_t volatile &dest, int64_t excg, int64_t comp)
 
 	return (old);
 
-#elif defined (__APPLE__)
-
-	return (::OSAtomicCompareAndSwap64Barrier (
-		comp, 
-		excg, 
-		const_cast <int64_t *> (reinterpret_cast <int64_t volatile *> (&dest))
-	) ? comp : excg);
-
-#elif defined (__GNUC__)
+#elif defined (__GNUC__) || defined (__APPLE__)
 
 	return (__sync_val_compare_and_swap (&dest, comp, excg));
 

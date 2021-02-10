@@ -105,7 +105,11 @@ protected:
 
 private:
 
-	typedef intptr_t IntPtr;
+	#if defined (__LP64__) || defined (_WIN64)
+	typedef int64_t IntPtr;
+	#else
+	typedef int32_t IntPtr;
+	#endif
 	static_assert ((sizeof (IntPtr) >= sizeof (void *)), "");
 
 
